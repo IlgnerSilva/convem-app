@@ -11,11 +11,17 @@ import Swal from 'sweetalert2';
 
 export class AppComponent {
   form: FormGroup;
+  spinner: boolean = false;
+  html: string | undefined;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient){
     this.form = this.formBuilder.group({
       msg: ['', Validators.required],
     });
+  }
+  loading(){
+    this.spinner = true;
+    this.html = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
   }
 
   onSubmit() {
@@ -40,7 +46,10 @@ export class AppComponent {
               text: 'Ocorreu um erro ao enviar os dados.'
             });
           }
-        );
+        ).add(() => {
+          this.spinner = false;
+          this.html = '';
+        })
     }
   }
 
