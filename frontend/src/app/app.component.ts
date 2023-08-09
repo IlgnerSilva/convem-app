@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -14,43 +13,36 @@ export class AppComponent {
   spinner: boolean = false;
   html: string | undefined;
 
+  // Array para armazenar mensagens do chat
+  chatMessages: { userMessage: string, apiResponse: string }[] = [];
+
   constructor(private formBuilder: FormBuilder, private http: HttpClient){
     this.form = this.formBuilder.group({
       msg: ['', Validators.required],
     });
   }
-  loading(){
-    this.spinner = true;
-    this.html = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
-  }
 
   onSubmit() {
     if (true) {
-      const formData = this.form.value;
-      this.http.get('http://localhost:3000')
-        .subscribe(
-          (response: any) => {
-            const { results } = response;
-            if(results){
-              Swal.fire({
-                icon: 'success',
-                title: 'Sucesso!',
-                text: 'Dados enviados com sucesso!'
-              });
+      const userMessage = this.form.value.msg; // Captura a mensagem do usuário
+      this.chatMessages.push({ userMessage, apiResponse: '' }); // Adiciona a mensagem do usuário ao array
+
+      setTimeout(()=>{
+        this.http.post('http://localhost:3000', {msg:userMessage})
+          .subscribe(
+            (response: any) => {
+              const { message } = response;
+              if(message !="Erro"){
+                this.chatMessages[this.chatMessages.length - 1].apiResponse = message; // Atualiza a resposta da API no array
+              }else{
+                this.chatMessages[this.chatMessages.length - 1].apiResponse = message; // Atualiza a resposta da API no array
+              }
+            },
+            (error: any) => {
+              this.chatMessages[this.chatMessages.length - 1].apiResponse = 'No momento não estamos disponíveis, tente novamente mais tarde.';
             }
-          },
-          (error: any) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro!',
-              text: 'Ocorreu um erro ao enviar os dados.'
-            });
-          }
-        ).add(() => {
-          this.spinner = false;
-          this.html = '';
-        })
+          )
+      }, 1000);
     }
   }
-
 }

@@ -1,16 +1,26 @@
-<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f5f5f5;">
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #8ac8d8;">
   <div class="card p-4 col-sm-12 col-md-5">
-    <h2 style="color: #83358B;" class="text-center mb-4">Deseja se juntar ao time da Convem?</h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="msg" class="form-label">E ai, o que me diz?</label>
-        <input type="text" class="form-control" id="msg" formControlName="msg" required>
+    <div class="card chat-container my-3 w-100">
+      <div class="p-3" style="min-height: 50vh; max-height: 50vh; overflow-y: auto; overflow-x: hidden;">
+        <p style="color: #fff; background-color: #83358B; width: max-content;" class="text-left my-3 p-2 rounded">Deseja se juntar ao time da Convem?</p>
+        <div *ngFor="let message of chatMessages" class="message w-100" >
+          <div class="w-100 d-flex justify-content-end">
+            <p style="color: #fff; background-color: #419db4; width: max-content;" class="user-message p-2 rounded">{{ message.userMessage }}</p>
+          </div>
+          <div class="w-100 d-flex justify-content-start">
+            <p style="color: #fff; background-color: #83358B; width: max-content;" class="api-response p-2 rounded">{{ message.apiResponse }}</p>
+          </div>
+        </div>
+
       </div>
-      <button type="submit" 
-              [class.disabled]="spinner" 
-              [innerHTML]="spinner ? html:'Responder'"
-              [class]="spinner ? 'btn btn-primary disabled' : 'btn btn-primary'"
-              (click)="loading()" id="btn" class="btn btn-primary w-100 fw-bold" type="submit"></button>
+    </div>
+    <form class="align-items-center row" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="col-10">
+        <input autocomplete="off" type="text" class="form-control border border-dark" id="msg" formControlName="msg" required>
+      </div>
+      <div class="col-2" >
+        <button style="background-color: #83358B;" class="w-100" class="w-100 btn rounded p-3 border-0" type="submit"></button>
+      </div>
     </form>
   </div>
 </div>
