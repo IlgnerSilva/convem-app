@@ -23,7 +23,7 @@ export class AppComponent {
   }
 
   onSubmit() {
-    if (true) {
+    if (this.form.value.msg != '') {
       const userMessage = this.form.value.msg; // Captura a mensagem do usuário
       this.chatMessages.push({ userMessage, apiResponse: '' }); // Adiciona a mensagem do usuário ao array
 
