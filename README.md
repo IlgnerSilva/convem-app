@@ -1,4 +1,4 @@
-# Projeto Redmi: Aplicação "Join Team"
+# Projeto "Teste prático": Aplicação "Convem"
 
 Este é um projeto simples que consiste em uma aplicação Angular que interage com um backend Node.js para exibir uma pergunta e confirmar a participação em um time. A aplicação exibe a pergunta "Você quer se juntar ao time da Convem?", permite ao usuário fornecer uma resposta e, em seguida, realiza uma chamada a uma API Node.js para processar a resposta e exibir uma mensagem correspondente.
 
